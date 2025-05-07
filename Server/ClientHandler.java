@@ -38,7 +38,7 @@ public class ClientHandler extends Thread {
         sendWelcomeMessage();
 
         while (true) {
-            out.println("🔑 Enter your username (3-12 characters, letters/numbers only):");
+            out.println("Enter your username (3-12 characters, letters/numbers only):");
             username = in.readLine();
 
             if (username == null)
@@ -125,7 +125,7 @@ public class ClientHandler extends Thread {
         leaveRoom(currentRoom);
         currentRoom = newRoom;
         joinRoom(newRoom);
-        out.println("🚪 Joined room: " + newRoom);
+        out.println("Joined room: " + newRoom);
     }
 
     private void handlePrivateMessage(String[] parts) {
@@ -139,32 +139,32 @@ public class ClientHandler extends Thread {
 
         ClientHandler recipient = Server.clients.get(target.toLowerCase());
         if (recipient != null) {
-            recipient.sendMessage(String.format("[PM from %s] %s", username, message));
-            out.println(String.format("[PM to %s] %s", target, message));
+            recipient.sendMessage(String.format("[Private Message from %s] %s", username, message));
+            out.println(String.format("[Private Message to %s] %s", target, message));
         } else {
             out.println(" User not found: " + target);
         }
     }
 
     private void listUsers() {
-        out.println("👥 Online users (" + Server.clients.size() + "):");
+        out.println("Online users (" + Server.clients.size() + "):");
         Server.clients.forEach((name, client) -> out.println("- " + client.getUsername() +
                 " (Room: " + client.getCurrentRoom() + ")"));
     }
 
     private void listRooms() {
-        out.println("🚪 Available rooms (" + Server.rooms.size() + "):");
+        out.println("Available rooms (" + Server.rooms.size() + "):");
         Server.rooms.keySet()
                 .forEach(room -> out.println("- " + room + " (" + Server.rooms.get(room).size() + " users)"));
     }
 
     private void sendWelcomeMessage() {
-        out.println("\n🌟 Welcome to Java Chat! 🌟");
+        out.println("\nWelcome to Java Chat!");
         out.println("=================================");
     }
 
     private void sendHelpMessage() {
-        out.println("\n🛠  Available Commands:");
+        out.println("\nAvailable Commands:");
         out.println("/help - Show this help message");
         out.println("/quit - Exit the chat");
         out.println("/room <name> - Switch or create room");
@@ -183,7 +183,7 @@ public class ClientHandler extends Thread {
             leaveRoom(currentRoom);
             currentRoom = newRoom;
             joinRoom(newRoom);
-            sendMessage("🚪 Joined room: " + newRoom);
+            sendMessage("Joined room: " + newRoom);
         }
     }
 

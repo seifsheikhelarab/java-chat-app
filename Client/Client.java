@@ -14,7 +14,7 @@ public class Client {
 
         while (true) {
             try {
-                System.out.println("🔌 Connecting to server...");
+                System.out.println("Connecting to server...");
                 connectToServer(scanner);
                 System.out.println(" Disconnected from server. Attempting to reconnect in " +
                         (RECONNECT_DELAY / 1000) + " seconds...");
