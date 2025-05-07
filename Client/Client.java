@@ -2,69 +2,59 @@ package Client;
 
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
 
 public class Client {
-    private static final String SERVER_IP = "localhost";
-    private static final int SERVER_PORT = 12345;
-    private static final int RECONNECT_DELAY = 5000;
+    private Socket socket;
+    private BufferedReader in;
+    private PrintWriter out;
+    private String username;
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            try {
-                System.out.println("Connecting to server...");
-                connectToServer(scanner);
-                System.out.println(" Disconnected from server. Attempting to reconnect in " +
-                        (RECONNECT_DELAY / 1000) + " seconds...");
-                Thread.sleep(RECONNECT_DELAY);
-            } catch (InterruptedException e) {
-                System.out.println("  Reconnect interrupted");
-                break;
-            }
-        }
+        new Client().startClient();
     }
 
-    private static void connectToServer(Scanner scanner) {
-        try (Socket socket = new Socket(SERVER_IP, SERVER_PORT);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+    public void startClient() {
+        try {
+            socket = new Socket("localhost", 12345);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
 
-            System.out.println(" Connected to server!");
-
-            // Start message reader thread
-            Thread readerThread = new Thread(() -> {
+            // Thread for receiving messages
+            new Thread(() -> {
                 try {
-                    String message;
-                    while ((message = in.readLine()) != null) {
-                        System.out.println(message);
+                    String serverMessage;
+                    while ((serverMessage = in.readLine()) != null) {
+                        System.out.println(serverMessage);
                     }
                 } catch (IOException e) {
-                    System.out.println("  Lost connection to server");
+                    System.out.println("Disconnected from server");
                 }
-            });
-            readerThread.start();
+            }).start();
 
             // Handle user input
-            while (true) {
-                String input = scanner.nextLine();
-                out.println(input);
+            BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+            
+            // Read username prompt
+            System.out.println(in.readLine());
+            username = consoleReader.readLine();
+            out.println(username);
 
-                if (input.equalsIgnoreCase("/quit")) {
-                    System.out.println("👋 Disconnecting...");
+            // Message sending loop
+            String message;
+            while ((message = consoleReader.readLine()) != null) {
+                out.println(message);
+                if (message.equalsIgnoreCase("/quit")) {
                     break;
                 }
             }
-
-            // Wait for reader thread to finish
-            readerThread.join(1000);
-        } catch (ConnectException e) {
-            System.out.println(" Could not connect to server. Is it running?");
         } catch (IOException e) {
-            System.out.println("  Connection error: " + e.getMessage());
-        } catch (InterruptedException e) {
-            System.out.println("  Thread interrupted");
+            System.out.println("Client error: " + e.getMessage());
+        } finally {
+            try {
+                if (socket != null) socket.close();
+            } catch (IOException e) {
+                System.out.println("Error closing connection: " + e.getMessage());
+            }
         }
     }
 }
