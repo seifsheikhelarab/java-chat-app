@@ -84,8 +84,7 @@ chat-app/
 ├── Client/  
 │   └── Client.java       # Manages client-side connection & messaging  
 ├── Server/  
-│   ├── Server.java       # Main server logic  
-│   └── ClientHandler.java # Thread for each client (if split into separate file)  
+│   └── Server.java       # Main server logic    
 ├── build.bat
 ├── runClient.bat
 ├── runServer.bat
