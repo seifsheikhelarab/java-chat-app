@@ -46,11 +46,11 @@ A Java-based **multi-client chat application** built using **socket programming*
 
 ## **Features**  
 
- **Multi-client support** (handles many users at once)  
- **Username-based identification** (no anonymous messaging)  
- **Real-time group chat** (messages broadcast to all)  
- **Graceful disconnections** (`/quit` command)  
- **Join/leave notifications** (automatic alerts)  
+- **Multi-client support** (handles many users at once)  
+- **Username-based identification** (no anonymous messaging)  
+- **Real-time group chat** (messages broadcast to all)  
+- **Graceful disconnections** (`/quit` command)  
+- **Join/leave notifications** (automatic alerts)  
 
 ---
 
