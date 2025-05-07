@@ -87,6 +87,8 @@ chat-app/
 │   ├── Server.java       # Main server logic  
 │   └── ClientHandler.java # Thread for each client (if split into separate file)  
 ├── build.bat
+├── runClient.bat
+├── runServer.bat
 └── README.md  
 ```
 
@@ -95,4 +97,3 @@ chat-app/
 ## **Conclusion**  
 
 This project demonstrates **socket programming** for network communication, **OOP** for clean architecture, and **multi-threading** for handling concurrent clients. It serves as a foundation for building more advanced chat systems with additional features.  
-
